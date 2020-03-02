@@ -1,0 +1,221 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Unknown </title></head><body>
+<h1 id="slamtec-rplidar-public-sdk-for-c">Slamtec RPLIDAR Public SDK for C++</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Slamtec RPLIDAR(https://www.slamtec.com/lidar/a3) series is a set of high-performance and low-cost LIDAR(https://en.wikipedia.org/wiki/Lidar) sensors, which is the perfect sensor of 2D SLAM, 3D reconstruction, multi-touch, and safety applications.</p>
+<p>This is the public SDK of RPLIDAR products in C++, and open-sourced under GPLv3 license.</p>
+<p>If you are using ROS (Robot Operating System), please use our open-source ROS node directly: https://github.com/slamtec/rplidar_ros .</p>
+<p>If you are just evaluating RPLIDAR, you can use Slamtec RoboStudio(https://www.slamtec.com/robostudio) (currently only support Windows) to do the evaulation.</p>
+<h2 id="license">License</h2>
+<p>The SDK itself is licensed under BSD 2-clause license.
+The demo applications are licensed under GPLv3 license.</p>
+<h2 id="release-notes">Release Notes</h2>
+<ul>
+<li><a href="https://github.com/slamtec/rplidar_sdk/blob/master/docs/ReleaseNote.v1.10.0.md">v1.11.0</a></li>
+<li><a href="https://github.com/slamtec/rplidar_sdk/blob/master/docs/ReleaseNote.v1.10.0.md">v1.10.0</a></li>
+<li><a href="https://github.com/slamtec/rplidar_sdk/blob/master/docs/ReleaseNote.v1.9.1.md">v1.9.1</a></li>
+<li><a href="https://github.com/slamtec/rplidar_sdk/blob/master/docs/ReleaseNote.v1.9.0.md">v1.9.0</a></li>
+<li><a href="https://github.com/slamtec/rplidar_sdk/blob/master/docs/ReleaseNote.v1.8.1.md">v1.8.1</a></li>
+<li><a href="https://github.com/slamtec/rplidar_sdk/blob/master/docs/ReleaseNote.v1.8.0.md">v1.8.0</a></li>
+</ul>
+<h2 id="supported-platforms">Supported Platforms</h2>
+<p>RPLIDAR SDK supports Windows, macOS and Linux by using Visual Studio 2010 projects and Makefile.</p>
+<table>
+<thead>
+<tr>
+<th>LIDAR Model \ Platform</th>
+<th>Windows</th>
+<th>macOS</th>
+<th>Linux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quick-start">Quick Start</h2>
+<h3 id="on-windows">On Windows</h3>
+<p>If you have Microsoft Visual Studio 2010 installed, just open sdk/workspaces/vc10/sdk_and_demo.sln, and compile. It contains the library as well as some demo applications.</p>
+<h3 id="on-macos-and-linux">On macOS and Linux</h3>
+<p>Please make sure you have make and g++ installed, and then just invoke make in the root directory, you can get the compiled result at <code>output/$PLATFORM/$SCHEME</code>, such as <code>output/Linux/Release</code>.</p>
+<pre><code>make
+</code></pre>
+<p>The Makefile compiles Release build by default, and you can also use <code>make DEBUG=1</code> to compile Debug builds.</p>
+<h2 id="cross-compile">Cross Compile</h2>
+<p>The Makefile system used by RPLIDAR public SDK support cross compiling.</p>
+<p>The following command can be used to cross compile the SDK for <code>arm-linux-gnueabihf</code> targets:</p>
+<pre><code>CROSS_COMPILE_PREFIX=arm-linux-gnueabihf ./cross_compile.sh
+</code></pre>
+<h2 id="demo-applications">Demo Applications</h2>
+<p>RPLIDAR public SDK includes some simple demos to do fast evaulation:</p>
+<h3 id="ultra_simple">ultra_simple</h3>
+<p>This demo application simply connects to an RPLIDAR device and outputs the scan data to the console.</p>
+<pre><code>ultra_simple &lt;serial_port_device&gt;
+</code></pre>
+<p>For instance:</p>
+<pre><code>ultra_simple \\.\COM11  # on Windows
+ultra_simple /dev/ttyUSB0
+</code></pre>
+<blockquote>
+<p>Note: Usually you need root privilege to access tty devices under Linux. To eliminate this limitation, please add <code>KERNEL=="ttyUSB*", MODE="0666"</code> to the configuration of udev, and reboot.</p>
+</blockquote>
+<h3 id="simple_grabber">simple_grabber</h3>
+<p>This application demonstrates the process of getting RPLIDARâ€™s serial number, firmware version and healthy status after connecting the PC and RPLIDAR. Then the demo application grabs two round of scan data and shows the range data as histogram in the command line mode.</p>
+<h3 id="frame_grabber-legacy">frame_grabber (Legacy)</h3>
+<p>This demo application can show real-time laser scans in the GUI and is only available on Windows platform.</p>
+<p>We have stopped the development of this demo application, please use Slamtec RoboStudio (https://www.slamtec.com/robostudio) instead.</p>
+<h2 id="sdk-usage">SDK Usage</h2>
+<blockquote>
+<p>For detailed documents of RPLIDAR SDK, please refer to our user manual: https://download.slamtec.com/api/download/rplidar-sdk-manual/1.0?lang=en</p>
+</blockquote>
+<h3 id="include-header">Include Header</h3>
+<pre><code>#include &lt;rplidar.h&gt;
+</code></pre>
+<p>Usually you only need to include this file to get all functions of RPLIDAR SDK.</p>
+<h3 id="sdk-initialization-and-termination">SDK Initialization and Termination</h3>
+<p>There are two static interfaces to create and dispose RPLIDAR driver instance. Each RPLIDAR driver instance can only be used to communicate with one RPLIDAR device. You can freely allocate arbitrary number of RPLIDAR driver instances to communicate with multiple RPLIDAR devices concurrently.</p>
+<pre><code>/// Create an RPLIDAR Driver Instance
+/// This interface should be invoked first before any other operations
+///
+/// \param drivertype the connection type used by the driver. 
+static RPlidarDriver * RPlidarDriver::CreateDriver(_u32 drivertype = DRIVER_TYPE_SERIALPORT);
+
+/// Dispose the RPLIDAR Driver Instance specified by the drv parameter
+/// Applications should invoke this interface when the driver instance is no longer used in order to free memory
+static void RPlidarDriver::DisposeDriver(RPlidarDriver * drv);
+</code></pre>
+<p>For example:</p>
+<pre><code>#include &lt;rplidar.h&gt;
+
+int main(int argc, char* argv)
+{
+    RPlidarDriver* lidar = RPlidarDriver::CreateDriver();
+
+    // TODO
+
+    RPlidarDriver::DisposeDriver(lidar);
+}
+</code></pre>
+<h3 id="connect-to-rplidar">Connect to RPLIDAR</h3>
+<p>After creating an RPlidarDriver instance, you can use <code>connect()</code> method to connect to a serial port:</p>
+<pre><code>u_result res = lidar-&gt;connect("/dev/ttyUSB0", 115200);
+
+if (IS_OK(res))
+{
+    // TODO
+    lidar-&gt;disconnect();
+}
+else
+{
+    fprintf(stderr, "Failed to connect to LIDAR %08x\r\n", res);
+}
+</code></pre>
+<h3 id="start-spinning-motor">Start spinning motor</h3>
+<p>The LIDAR is not spinning by default. Method <code>startMotor()</code> is used to start this motor.</p>
+<blockquote>
+<p>For RPLIDAR A1 series, this method will enable DTR signal to make the motor rotate; for A2 and A3 serieses, the method will make the accessory board to output a PWM signal to MOTOR_PWM pin.</p>
+</blockquote>
+<pre><code>lidar-&gt;startMotor();
+// TODO
+lidar-&gt;stopMotor();
+</code></pre>
+<h3 id="start-scan">Start scan</h3>
+<p>Slamtec RPLIDAR support different scan modes for compatibility and performance. Since RPLIDAR SDK 1.6.0, a new API <code>getAllSupportedScanModes()</code> has been added to the SDK.</p>
+<pre><code>std::vector&lt;RplidarScanMode&gt; scanModes;
+lidar-&gt;getAllSupportedScanModes(scanModes);
+</code></pre>
+<p>You can pick a scan mode from this list like this:</p>
+<pre><code>lidar-&gt;startScanExpress(false, scanModes[0].id);
+</code></pre>
+<p>Or you can just use the typical scan mode of RPLIDAR like this:</p>
+<pre><code>RplidarScanMode scanMode;
+lidar-&gt;startScan(false, true, 0, &amp;scanMode);
+</code></pre>
+<h3 id="grab-scan-data">Grab scan data</h3>
+<p>When the RPLIDAR is scanning, you can use <code>grabScanData()</code> and <code>grabScanDataHq()</code> API to fetch one frame of scan. The difference between <code>grabScanData()</code> and <code>grabScanDataHq()</code> is the latter one support distances farther than 16.383m, which is required for RPLIDAR A2M6-R4 and RPLIDAR A3 series.</p>
+<blockquote>
+<p>The <code>grabScanDataHq()</code> API is backward compatible with old LIDAR models and old firmwares. So we recommend always using this API, and use <code>grabScanData()</code> only for compatibility.</p>
+</blockquote>
+<pre><code>rplidar_response_measurement_node_hq_t nodes[8192];
+size_t nodeCount = sizeof(nodes)/sizeof(rplidar_response_measurement_node_hq_t);
+res = lidar-&gt;grabScanDataHq(nodes, nodeCount);
+
+if (IS_FAIL(res))
+{
+    // failed to get scan data
+}
+</code></pre>
+<h3 id="defination-of-data-structure-rplidar_response_measurement_node_hq_t">Defination of data structure <code>rplidar_response_measurement_node_hq_t</code></h3>
+<p>The defination of <code>rplidar_response_measurement_node_hq_t</code> is:</p>
+<pre><code>#if defined(_WIN32)
+#pragma pack(1)
+#endif
+
+typedef struct rplidar_response_measurement_node_hq_t {
+    _u16   angle_z_q14; 
+    _u32   dist_mm_q2; 
+    _u8    quality;  
+    _u8    flag;
+} __attribute__((packed)) rplidar_response_measurement_node_hq_t;
+
+#if defined(_WIN32)
+#pragma pack()
+#endif
+</code></pre>
+<p>The definiton of each fields are:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Data Type</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>angle_z_q14</td>
+<td>u16_z_q14</td>
+<td>It is a fix-point angle desciption in z presentation</td>
+</tr>
+<tr>
+<td>dist_mm_q2</td>
+<td>u32_q2</td>
+<td>Distance in millimeter of fixed point values</td>
+</tr>
+<tr>
+<td>quality</td>
+<td>u8</td>
+<td>Measurement quality (0 ~ 255)</td>
+</tr>
+<tr>
+<td>flag</td>
+<td>u8</td>
+<td>Flags, current only one bit used: <code>RPLIDAR_RESP_MEASUREMENT_SYNCBIT</code></td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<pre><code>float angle_in_degrees = node.angle_z_q14 * 90.f / (1 &lt;&lt; 14);
+float distance_in_meters = node.dist_mm_q2 / 1000.f / (1 &lt;&lt; 2);
+</code></pre>
+<h2 id="contact-slamtec">Contact Slamtec</h2>
+<p>If you have any extra questions, please feel free to contact us at our support email:</p>
+<pre><code>support AT slamtec DOT com
+</code></pre>
+</body></html>
