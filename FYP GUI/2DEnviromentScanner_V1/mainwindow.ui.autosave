@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="scanMapArea" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>10</y>
+      <width>341</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget{
+background-color: #C255C255C255;
+}</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuPoint_colour">
+    <property name="title">
+     <string>Point colour</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuPoint_width">
+    <property name="title">
+     <string>Point width</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuClear_map">
+    <property name="title">
+     <string>Clear map</string>
+    </property>
+    <addaction name="actionErase"/>
+   </widget>
+   <addaction name="menuOptions"/>
+   <addaction name="menuPoint_colour"/>
+   <addaction name="menuPoint_width"/>
+   <addaction name="menuClear_map"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionErase">
+   <property name="text">
+    <string>Erase</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>scanMapArea</class>
+   <extends>QWidget</extends>
+   <header>scanMapArea.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
